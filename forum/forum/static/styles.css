@@ -1,0 +1,97 @@
+
+input[type="text"], input[type="password"], input[type="email"], textarea {
+    font-size: 16px;
+    padding: 0.75rem 1rem; 
+    border: 1px solid #DADADA; 
+    border-radius: 8px;
+    width: 100%;
+    background-color: #F8F8F8; 
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+    border-color: #FF4500; 
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 69, 0, 0.4); 
+}
+
+input[type="text"]:hover, input[type="password"]:hover, input[type="email"]:hover {
+    border-color: #C0C0C0;
+}
+
+.btn {
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #1E90FF;
+    color: #FFF;
+}
+
+.btn-primary:hover {
+    background-color: #1565C0;
+    transform: translateY(-2px); 
+}
+
+.btn-success {
+    background-color: #FF4500; 
+    color: #FFF;
+}
+
+.btn-success:hover {
+    background-color: #E63900; 
+    transform: translateY(-2px);
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #DADADA;
+    justify-content: center;
+}
+
+.nav-link {
+    font-size: 18px; 
+    font-weight: 600; 
+    color: #444; 
+    margin: 0 10px;
+    border: none;
+    padding: 10px 15px;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+}
+
+.nav-link.active {
+    color: #FF4500;
+    border-bottom: 2px solid #FF4500;
+}
+
+.nav-link:hover {
+    color: #FF6347;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.form-text {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.form-text a {
+    color: #FF4500;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.form-text a:hover {
+    color: #E63900;
+}

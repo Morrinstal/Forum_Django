@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать категорию</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #1a237e;
+            font-size: 2.5em;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 20px;
+        }
+
+        .form-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-card input,
+        .form-card textarea,
+        .form-card button {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .form-card input:focus,
+        .form-card textarea:focus {
+            border-color: #1e88e5;
+            outline: none;
+            box-shadow: 0 0 8px rgba(30, 136, 229, 0.3);
+        }
+
+        .form-card button {
+            background-color: #1e88e5;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+            border-radius: 25px;
+        }
+
+        .form-card button:hover {
+            background-color: #1565c0;
+            transform: scale(1.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 1em;
+            color: #1e88e5;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #1565c0;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Создать категорию</h1>
+
+    <div class="form-container">
+        <div class="form-card">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Создать</button>
+            </form>
+            <a href="{% url 'category_list' %}" class="back-link">Назад</a>
+        </div>
+    </div>
+</body>
+</html>

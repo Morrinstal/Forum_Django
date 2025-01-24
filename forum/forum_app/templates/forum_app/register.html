@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Account{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card p-4" style="width: 100%; max-width: 400px; border: none; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); border-radius: 12px;">
+        <h3 class="text-center mb-4" style="font-weight: bold;">Your Account</h3>
+
+        <div class="nav nav-tabs justify-content-center border-0" id="tab-menu" role="tablist">
+            <button class="nav-link active border-0" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" 
+                    type="button" role="tab" style="font-weight: bold; font-size: 18px;">Log In</button>
+            <button class="nav-link border-0" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup" 
+                    type="button" role="tab" style="font-weight: bold; font-size: 18px;">Sign Up</button>
+        </div>
+
+        <div class="tab-content mt-4">
+            <div class="tab-pane fade show active" id="login" role="tabpanel">
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <input type="text" name="username" class="form-control" placeholder="yours@example.com" 
+                               style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 10px;" 
+                               value="{{ form.username.value|default_if_none:'' }}">
+                        {% if form.username.errors %}
+                            <div class="text-danger">
+                                {% for error in form.username.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="your password" 
+                               style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 10px;">
+                        {% if form.password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.password.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100 py-2 mt-3" 
+                            style="border-radius: 25px; font-weight: bold;">LOG IN</button>
+                </form>
+            </div>
+
+            <div class="tab-pane fade" id="signup" role="tabpanel">
+                <form method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="yours@example.com" 
+                               style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 10px;" 
+                               value="{{ form.email.value|default_if_none:'' }}">
+                        {% if form.email.errors %}
+                            <div class="text-danger">
+                                {% for error in form.email.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="first_name" class="form-control" placeholder="first name" 
+                               style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 10px;" 
+                               value="{{ form.first_name.value|default_if_none:'' }}">
+                        {% if form.first_name.errors %}
+                            <div class="text-danger">
+                                {% for error in form.first_name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="last_name" class="form-control" placeholder="last name" 
+                               style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 10px;" 
+                               value="{{ form.last_name.value|default_if_none:'' }}">
+                        {% if form.last_name.errors %}
+                            <div class="text-danger">
+                                {% for error in form.last_name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="username" class="form-control" placeholder="username" 
+                               style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 10px;" 
+                               value="{{ form.last_name.value|default_if_none:'' }}">
+                        {% if form.last_name.errors %}
+                            <div class="text-danger">
+                                {% for error in form.last_name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="your password" 
+                               style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 10px;">
+                        {% if form.password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.password.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" name="confirm_password" class="form-control" placeholder="confirm password" 
+                               style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 10px;">
+                        {% if form.confirm_password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.confirm_password.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100 py-2 mt-3" 
+                            style="border-radius: 25px; font-weight: bold;">AGREE & CREATE ACCOUNT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Log In {% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-start" style="min-height: 100vh;padding-top: 100px;">
+    <div class="login-box shadow p-4" 
+         style="max-width: 450px; width: 100%; border-radius: 12px; background-color: #ffffff; border: 1px solid #ddd;">
+        <h3 class="text-center" style="font-weight: bold; margin-bottom: 20px; color: #333;">Log In To Your Account</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="username" name="username" class="form-control" placeholder="username" 
+                       style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 12px;">
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="your password" 
+                       style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 12px;">
+            </div>
+            <a href="#" class="d-block text-center"style="font-size: 14px; color: #555; text-decoration: underline; text-align: center">Don't remember your password?</a>
+            <button type="submit" class="btn btn-dark w-100 py-2 mt-3" 
+                    style="border-radius: 25px; font-weight: bold;">LOG IN</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

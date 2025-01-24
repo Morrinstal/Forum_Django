@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали поста</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f2f4f5;
+        }
+
+        .post-card, .comment-card {
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .post-card:hover, .comment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+
+        .post-header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .post-text, .comment-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .like-btn {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .like-btn:hover {
+            background-color: #1c3ed1;
+            border-color: #adb5bd;
+        }
+
+        .like-count {
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        .post-date, .comment-date {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #6c757d;
+        }
+
+        .delete-btn {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+        .comment-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .comment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .avatar {
+            display: inline-block;
+            object-fit: cover;
+            overflow: hidden;
+        }
+
+        .btn-outline-danger {
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            font-size: 0.8rem;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+
+        <div class="post-card p-4">
+            <div class="d-flex align-items-center mb-3">
+                {% if post.author.profile.avatar %}
+                    <img src="{{ post.author.profile.avatar.url }}" alt="Avatar" class="avatar">
+                {% else %}
+                   <div class="avatar bg-secondary"></div>
+                {% endif %}
+                <h1 class="ms-3 text-primary">Автор: {{ post.author }}</h1>
+            </div>
+            <p class="post-text">{{ post.text }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                        </svg>
+                    <span class="badge bg-secondary like-count">{{ post.like_count }}</span>
+                </div>
+                <p class="text-muted small post-date">Дата создания: {{ post.created_at }}</p>
+            </div>
+            {% if user == post.author %}
+            <form method="POST" action="{% url 'delete_post' post.pk %}" class="mt-3">
+                {% csrf_token %}
+                <button class="btn btn-danger delete-btn">Удалить пост</button>
+            </form>
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="mb-4 d-flex justify-content-between">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">Прокомментировать</button>
+            <a href="{% url 'category_detail' post.category.pk %}" class="btn btn-secondary ms-3">Вернуться к постам</a>
+        </div>
+        {% endif %}
+
+
+        <h2 class="my-4">Комментарии</h2>
+        {% for comment in comments %}
+        <div class="comment-card p-3 mb-3 rounded shadow-sm border">
+            <div class="d-flex align-items-center mb-2">
+                {% if comment.author.profile.avatar %}
+                    <img src="{{ comment.author.profile.avatar.url }}" alt="Avatar" class="avatar rounded-circle" style="width: 40px; height: 40px;">
+                {% else %}
+                    <div class="avatar bg-secondary rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                        <span class="text-white">{{ comment.author|slice:":1"|upper }}</span>
+                    </div>
+                {% endif %}
+                <h5 class="ms-2 text-dark mb-0">{{ comment.author }}</h5>
+            </div>
+            <p class="comment-text text-dark mb-2" style="font-size: 0.95rem; line-height: 1.4;">{{ comment.text }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="text-muted small mb-0" style="font-size: 0.8rem;">{{ comment.created_at }}</p>
+                {% if user == comment.author %}
+                <form method="POST" action="{% url 'delete_comment' comment.pk %}" class="d-inline">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">Нет комментариев для этого поста.</p>
+        {% endfor %}
+    </div>
+
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="commentModalLabel">Добавить комментарий</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <form method="POST" action="{% url 'add_comment' post.pk %}">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="commentText" class="form-label">Ваш комментарий</label>
+                            <textarea id="commentText" name="text" class="form-control" rows="4" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
